@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
 
-import 'screens/ProductListScreen.dart';
+import 'screens/ProductPage.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  runApp(const CrudApp());
+}
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class CrudApp extends StatelessWidget {
+  const CrudApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Product CRUD',
+      title: 'CRUD Application',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const ProductListScreen(),
+          inputDecorationTheme: const InputDecorationTheme(
+        border: OutlineInputBorder(),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.deepOrange, width: 2),
+        ),
+      )),
+      home: const ProductPage(),
     );
   }
 }
