@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'products.dart';
 
 class ProductListScreen extends StatefulWidget {
+  const ProductListScreen({super.key});
+
   @override
   _ProductListScreenState createState() => _ProductListScreenState();
 }
@@ -101,7 +103,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Product CRUD'),
+        title: const Text('Product CRUD'),
       ),
       body: ListView.builder(
         itemCount: productList.length,
@@ -120,21 +122,21 @@ class _ProductListScreenState extends State<ProductListScreen> {
                 context: context,
                 builder: (context) {
                   return AlertDialog(
-                    title: Text('Delete Product'),
-                    content: Text('Are you sure you want to delete this product?'),
+                    title: const Text('Delete Product'),
+                    content: const Text('Are you sure you want to delete this product?'),
                     actions: [
                       TextButton(
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text('Cancel'),
+                        child: const Text('Cancel'),
                       ),
                       TextButton(
                         onPressed: () {
                           Navigator.of(context).pop();
                           deleteProduct(product);
                         },
-                        child: Text('Delete'),
+                        child: const Text('Delete'),
                       ),
                     ],
                   );
@@ -148,7 +150,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
         onPressed: () {
           createProduct();
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
