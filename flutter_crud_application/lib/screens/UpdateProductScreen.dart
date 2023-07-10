@@ -3,16 +3,19 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
-// TODO - Add validation in all fields
+import 'Product.dart';
 
-class AddNewProductScreen extends StatefulWidget {
-  const AddNewProductScreen({Key? key}) : super(key: key);
+class UpdateProductScreen extends StatefulWidget {
+  final Product product;
+
+  const UpdateProductScreen({Key? key, required this.product})
+      : super(key: key);
 
   @override
-  State<AddNewProductScreen> createState() => _AddNewProductScreenState();
+  State<UpdateProductScreen> createState() => _UpdateProductScreenState();
 }
 
-class _AddNewProductScreenState extends State<AddNewProductScreen> {
+class _UpdateProductScreenState extends State<UpdateProductScreen> {
   final TextEditingController _nameTEController = TextEditingController();
   final TextEditingController _productCodeTEController =
       TextEditingController();
@@ -25,13 +28,25 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
 
   bool inProgress = false;
 
-  void addProduct() async {
+  @override
+  void initState() {
+    _nameTEController.text = widget.product.productName;
+    _productCodeTEController.text = widget.product.productCode;
+    _priceTEController.text = widget.product.unitPrice;
+    _totalPriceTEController.text = widget.product.totalPrice;
+    _imageTEController.text = widget.product.img;
+    _quantityTEController.text = widget.product.qty;
+    super.initState();
+  }
+
+  void updateProduct() async {
     inProgress = true;
     if (mounted) {
       setState(() {});
     }
     Response response = await post(
-        Uri.parse('https://crud.teamrabbil.com/api/v1/CreateProduct'),
+        Uri.parse(
+            'https://crud.teamrabbil.com/api/v1/UpdateProduct/${widget.product.id}'),
         headers: {'Content-type': 'application/json'},
         body: jsonEncode({
           "Img": _imageTEController.text.trim(),
@@ -49,19 +64,13 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
       final decodedBody = jsonDecode(response.body);
       if (decodedBody['status'] == 'success') {
         if (mounted) {
-          _imageTEController.clear();
-          _priceTEController.clear();
-          _totalPriceTEController.clear();
-          _productCodeTEController.clear();
-          _nameTEController.clear();
-          _quantityTEController.clear();
           ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('New product add success!')));
+              const SnackBar(content: Text('Product update success!')));
         }
       } else {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('New product add failed. Try again')));
+              content: Text('Product update failed. Try again')));
         }
       }
     }
@@ -71,7 +80,7 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Product'),
+        title: const Text('Update Product'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -172,10 +181,10 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
                           ),
                           onPressed: () {
                             if (_formState.currentState!.validate()) {
-                              addProduct();
+                              updateProduct();
                             }
                           },
-                          child: const Text('Add'),
+                          child: const Text('Update'),
                         ),
                 )
               ],
