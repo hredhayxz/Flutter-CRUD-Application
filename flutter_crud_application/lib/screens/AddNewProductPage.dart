@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
-// TODO - Add validation in all fields
-
 class AddNewProductScreen extends StatefulWidget {
   const AddNewProductScreen({Key? key}) : super(key: key);
 
